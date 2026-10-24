@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f8ff" />
+  <meta name="description" content="BlueTodo AI — turn thoughts into a clear, doable plan with Google Gemini." />
+  <title>BlueTodo AI — Your day, in focus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="connection.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="BlueTodo home"><span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 16.5 14 21l10-11"/><path d="M16 3.5 27.5 9v8c0 6-4.8 10-11.5 12C9.3 27 4.5 23 4.5 17V9L16 3.5Z"/></svg></span><span>blue<span class="brand-light">todo</span><small>YOUR DAY, IN FOCUS</small></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-view="today"><span class="nav-icon">▦</span>Today <span class="nav-count" id="today-count">0</span></button>
+        <button class="nav-item" data-view="upcoming"><span class="nav-icon">◷</span>Upcoming</button>
+        <button class="nav-item" data-view="calendar"><span class="nav-icon">▦</span>Calendar</button>
+        <button class="nav-item" data-view="completed"><span class="nav-icon">✓</span>Completed</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="assistant-mini"><span class="sparkle">✳</span><strong>A little more clarity.</strong><p>Turn your next big thought into a small, doable step.</p><button id="focus-button" class="mini-link">Plan something <span>↗</span></button></div><div class="profile"><div class="avatar">B</div><div><strong>My workspace</strong><small>Personal planner</small></div><span class="more">•••</span></div></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar"><button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button><div class="breadcrumbs">My workspace <span>/</span> <b id="breadcrumb-view">Today</b></div><div class="top-actions"><span class="today-date" id="header-date"></span><button class="icon-button" id="export-button" title="Export tasks as calendar file" aria-label="Export calendar">⇩</button><div class="avatar top-avatar">B</div></div></header>
+      <div class="content-wrap">
+        <section class="welcome-row"><div><div class="eyebrow"><span class="live-dot"></span> A FRESH START, EVERY DAY</div><h1 id="page-title">Make room for what matters.</h1><p class="subtitle" id="page-subtitle">A little progress adds up. Here’s your day at a glance.</p></div><div class="date-chip"><span>✦</span><span id="date-chip"></span></div></section>
+        <section class="capture-card" id="capture-card"><div class="capture-heading"><div class="capture-icon">✳</div><div><h2>What’s on your mind?</h2><p>Drop in a goal, a reminder, or that thing you keep meaning to do.</p></div><button class="connection-badge checking" id="gemini-status" type="button" title="Click to test Gemini connection" aria-live="polite"><span class="connection-dot"></span><span id="gemini-status-text">Checking Gemini…</span></button></div><form id="planner-form"><label class="sr-only" for="planner-input">Describe something you want to accomplish</label><textarea id="planner-input" rows="2" placeholder="e.g. Help me prepare for my biology exam next Friday — I have about 4 chapters to review." required></textarea><div class="capture-footer"><span class="privacy-note"><span>⌑</span> Your request and task summaries are sent to Google Gemini</span><button type="submit" class="primary-button" id="plan-button"><span>✧</span> Make me a plan <span class="button-arrow">→</span></button></div></form></section>
+
+        <section class="plan-panel hidden" id="plan-panel" aria-live="polite"><div class="plan-top"><div><div class="eyebrow blue-eyebrow" id="plan-model">✧ YOUR PLAN PREVIEW</div><h2 id="plan-goal">A plan for your goal</h2><p class="plan-reason" id="plan-reason"></p></div><button class="close-button" id="reject-plan" aria-label="Discard plan">×</button></div><div class="plan-notice"><span>ⓘ</span><span>Review and edit these suggestions. Nothing is saved until you approve.</span></div><div class="suggestion-list" id="suggestion-list"></div><div class="plan-actions"><button class="text-button" id="discard-plan">Start over</button><button class="primary-button" id="approve-plan">Add <span id="suggestion-count">0</span> tasks to my list <span>→</span></button></div></section>
+
+        <section class="stats-row" id="stats-row"><article class="stat-card"><div class="stat-icon blue-icon">◷</div><div><span>ON YOUR PLATE</span><strong id="stat-open">0</strong><small>tasks to focus on</small></div><div class="stat-trend">↗</div></article><article class="stat-card"><div class="stat-icon violet-icon">✧</div><div><span>ALREADY DONE</span><strong id="stat-done">0</strong><small>little wins this week</small></div><div class="progress-ring"><span id="completion-percent">0%</span></div></article><article class="stat-card"><div class="stat-icon amber-icon">⚑</div><div><span>NEEDS A NUDGE</span><strong id="stat-priority">0</strong><small>high priority tasks</small></div><div class="stat-arrow">→</div></article></section>
+
+        <section class="dashboard-grid" id="dashboard-grid"><div class="task-section"><div class="section-heading"><div><div class="eyebrow blue-eyebrow" id="task-eyebrow">YOUR FOCUS</div><h2 id="task-heading">Today’s tasks <span class="heading-count" id="task-count">0</span></h2></div><button class="small-add" id="quick-add">＋ <span>Add task</span></button></div><div class="progress-line"><div class="progress-track"><span id="today-progress"></span></div><span id="progress-label">0% done</span></div><div class="task-list" id="task-list"></div><div class="empty-state hidden" id="empty-state"><div class="empty-illustration">✳</div><strong>A little breathing room.</strong><p>No tasks here just yet. Add one above or let’s make a plan together.</p><button class="outline-button" id="empty-plan">✧ &nbsp; Plan something</button></div></div>
+          <aside class="assistant-card"><div class="assistant-heading"><span class="assistant-sparkle">✧</span><div><div class="eyebrow blue-eyebrow">YOUR PLANNING SPACE</div><h3>A calmer way forward</h3></div></div><p class="assistant-copy">Plans are generated with Google Gemini. Your API key stays on this computer in the backend configuration and is never sent to the browser.</p><div class="tip-box"><div class="tip-label"><span>✦</span> A GENTLE REMINDER</div><p id="daily-tip">You don’t have to do it all today. Just the next right thing.</p></div><div class="assistant-footer"><span class="tiny-sparkle">✧</span> <span>Thoughtful planning, at your pace.</span></div></aside></section>
+        <section class="calendar-panel hidden" id="calendar-panel"><div class="section-heading calendar-heading"><div><div class="eyebrow blue-eyebrow">YOUR WEEK, GENTLY PLANNED</div><h2 id="week-title">This week</h2></div><div class="week-controls"><button id="week-prev" aria-label="Previous week">←</button><button id="week-today">Today</button><button id="week-next" aria-label="Next week">→</button></div></div><div class="week-grid" id="week-grid"></div></section>
+        <footer class="page-footer"><span>Made for your real life, not your ideal one.</span><span>BlueTodo <i>✦</i></span></footer>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal-backdrop hidden" id="task-modal"><form class="task-modal-card" id="task-form"><button type="button" class="close-button modal-close" id="modal-close">×</button><div class="eyebrow blue-eyebrow">A SMALL NEXT STEP</div><h2 id="modal-title">Add a task</h2><label>Task name<input id="task-title-input" maxlength="120" required placeholder="What needs doing?"></label><div class="modal-fields"><label>Due date<input type="date" id="task-date-input"></label><label>Priority<select id="task-priority-input"><option>Normal</option><option>High</option><option>Urgent</option></select></label></div><label>Estimated time <span class="optional">(optional)</span><input id="task-duration-input" type="number" min="5" step="5" placeholder="e.g. 30 minutes"></label><div class="modal-actions"><button type="button" class="text-button" id="modal-cancel">Cancel</button><button type="submit" class="primary-button">Save task <span>→</span></button></div></form></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
